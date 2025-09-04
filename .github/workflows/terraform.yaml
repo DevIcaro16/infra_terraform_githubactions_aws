@@ -50,12 +50,12 @@ jobs:
           aws-region: ${{ inputs.aws-region }}
 
       
-      - name: Check destroy config
+      - name: Check destroy config 
         id: read-destroy-config
         run: |
           cd infra
           DESTROY="$(jq -r '.${{ inputs.environment }}' destroy_config.json)"
-          echo "destroy=${echo $DESTROY}" >> $GITHUB_OUTPUT
+          echo "destroy=$DESTROY" >> $GITHUB_OUTPUT
 
       - name: Terraform init
         run: |
