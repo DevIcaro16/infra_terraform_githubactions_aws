@@ -1,0 +1,20 @@
+name: "PROD DEPLOY"
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform:
+    uses: ./.github/workflows/terraform.yaml
+    with:
+      environment: prod
+      aws-region: us-east-1
+      aws-assume-role-arn: "arn:aws:iam::438465144783:role/github-actions-devicaro16-pipeline"
+      aws-statefile-s3-bucket: "devicaro16-us-east-1-pipeline-terraform-statefile"
+      aws-lock-dynamondb-table: "devicaro16-us-east-1-terraform-lock"
