@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v4
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.8.3
 
@@ -57,7 +57,7 @@ jobs:
             -backend-config="dynamodb_table=${{ inputs.aws-lock-dynamondb-table }}"
 
       - name: Terraform validate
-        run: terraform validate
+        run: cd infra && terraform validate
 
       - name: Terraform plan
         id: terraform-plan
@@ -74,4 +74,4 @@ jobs:
 
       - name: Terraform destroy
         id: terraform-destroy
-        run: cd infra && terraform-destroy
+        run: cd infra && terraform destroy -auto-approve
