@@ -71,6 +71,7 @@ jobs:
              terraform workspace select ${{ inputs.environment }} || terraform workspace new ${{ inputs.environment }} &&
              terraform apply "${{ inputs.environment }}.plan"
 
+
       - name: Terraform destroy
         id: terraform-destroy
         run: cd infra && terraform-destroy
