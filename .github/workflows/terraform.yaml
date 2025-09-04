@@ -78,8 +78,8 @@ jobs:
           terraform apply "${{ inputs.environment }}.plan"
 
 
-      - name: Terraform destroy
-        id: terraform-destroy
-        run: |
-          cd infra
-          terraform destroy -auto-approve
+      # - name: Terraform destroy
+      #   id: terraform-destroy
+      #   run: |
+      #     cd infra
+      #     terraform destroy -auto-approve
