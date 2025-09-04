@@ -50,28 +50,36 @@ jobs:
           aws-region: ${{ inputs.aws-region }}
 
       - name: Terraform init
-        run: cd infra && terraform init \
+        run: |
+          cd infra
+          terraform init \
             -backend-config="bucket=${{ inputs.aws-statefile-s3-bucket }}" \
             -backend-config="key=${{ github.event.repository.name }}" \
             -backend-config="region=${{ inputs.aws-region }}" \
             -backend-config="dynamodb_table=${{ inputs.aws-lock-dynamondb-table }}"
 
       - name: Terraform validate
-        run: cd infra && terraform validate
+        run: |
+          cd infra
+          terraform validate
 
       - name: Terraform plan
         id: terraform-plan
-        run: cd infra && 
-             terraform workspace select ${{ inputs.environment }} || terraform workspace new ${{ inputs.environment }} &&
-             terraform plan -var-file="../envs/${{ inputs.environment }}/terraform.tfvars" -out="${{ inputs.environment }}.plan"
+        run: |
+          cd infra
+          terraform workspace select ${{ inputs.environment }} || terraform workspace new ${{ inputs.environment }}
+          terraform plan -var-file="../envs/${{ inputs.environment }}/terraform.tfvars" -out="${{ inputs.environment }}.plan"
 
       - name: Terraform apply
         id: terraform-apply
-        run: cd infra && 
-             terraform workspace select ${{ inputs.environment }} || terraform workspace new ${{ inputs.environment }} &&
-             terraform apply "${{ inputs.environment }}.plan"
+        run: |
+          cd infra
+          terraform workspace select ${{ inputs.environment }} || terraform workspace new ${{ inputs.environment }}
+          terraform apply "${{ inputs.environment }}.plan"
 
 
       - name: Terraform destroy
         id: terraform-destroy
-        run: cd infra && terraform destroy -auto-approve
+        run: |
+          cd infra
+          terraform destroy -auto-approve
